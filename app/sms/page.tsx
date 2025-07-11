@@ -7,6 +7,7 @@ import { smsLogin } from "./action";
 
 const initialState = {
   phone: "",
+  tokenValue: "",
   token: false,
   error: undefined,
 };
@@ -20,15 +21,16 @@ export default function SmsLogIn() {
         <h2 className="text-xl">Verify your phone number.</h2>
       </div>
       <form action={dispatch} className="flex flex-col gap-3">
-        <Input
-          type="text"
-          name="phone"
-          placeholder="Phone Number"
-          defaultValue={state.phone}
-          required
-          errors={state.error?.formErrors}
-        />
-        {state.token ? (
+        {!state.token ? (
+          <Input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            defaultValue={state.phone}
+            required
+            errors={state.error?.formErrors}
+          />
+        ) : (
           <Input
             type="number"
             name="token"
@@ -36,8 +38,10 @@ export default function SmsLogIn() {
             required
             min={100000}
             max={999999}
+            defaultValue={Number(state.tokenValue)}
+            errors={state.error?.formErrors}
           />
-        ) : null}
+        )}
         <Button text={state.token ? "Verify Token" : "Send Verification SMS"} />
       </form>
     </div>

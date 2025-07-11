@@ -7,8 +7,7 @@ import {
 import db from "@/lib/db";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
+import { logUserIn } from "@/lib/session";
 
 const formSchema = z
   .object({
@@ -97,11 +96,6 @@ export async function createAccount(prevState: any, formData: FormData) {
         id: true,
       },
     });
-    // 2. log the user in
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-    // 3. redirect "/home"
-    redirect("/profile");
+    logUserIn(user.id);
   }
 }

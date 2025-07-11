@@ -4,7 +4,7 @@ import validator from "validator";
 import { redirect } from "next/navigation";
 import db from "@/lib/db";
 import crypto from "crypto";
-import getSession from "@/lib/session";
+import { getSession } from "@/lib/session";
 
 const phoneSchema = z
   .string()

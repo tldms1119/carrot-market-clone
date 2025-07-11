@@ -1,6 +1,6 @@
 import db from "@/lib/db";
-import getSession from "@/lib/session";
-import { notFound, redirect } from "next/navigation";
+import { logUserIn } from "@/lib/session";
+import { notFound } from "next/navigation";
 import { NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -48,10 +48,7 @@ export async function GET(request: NextRequest) {
     },
   });
   if (user) {
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-    return redirect("/profile");
+    logUserIn(user.id);
   }
   // TODO check duplicate username & give random username
   const newUser = await db.user.create({
@@ -64,9 +61,5 @@ export async function GET(request: NextRequest) {
       id: true,
     },
   });
-  // TODO Create login function
-  const session = await getSession();
-  session.id = newUser.id;
-  await session.save();
-  return redirect("/profile");
+  logUserIn(newUser.id);
 }

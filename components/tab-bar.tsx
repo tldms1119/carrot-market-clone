@@ -24,8 +24,8 @@ export default function TabBar() {
       className="fixed bottom-0 w-full mx-auto max-w-screen-md grid grid-cols-5
     border-neutral-200 border-t px-5 py-3 bg-white"
     >
-      <Link href="/products" className="flex flex-col items-center gap-px">
-        {pathname === "/products" ? (
+      <Link href="/home" className="flex flex-col items-center gap-px">
+        {pathname === "/home" ? (
           <SolidHomeIcon className="w-7 h-7" />
         ) : (
           <OutlineHomeIcon className="w-7 h-7" />

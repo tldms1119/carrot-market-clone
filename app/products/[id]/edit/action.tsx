@@ -23,7 +23,7 @@ export async function editProduct(_: any, formData: FormData) {
     description: formData.get("description"),
   };
   let isImageChanged = false;
-  if (data.photo instanceof File) {
+  if (data.photo instanceof File && data.photo.size > 0) {
     data.photo = await saveImage(data.photo);
     isImageChanged = true;
   } else {

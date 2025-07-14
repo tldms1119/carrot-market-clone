@@ -2,6 +2,7 @@
 
 import CloseButton from "@/components/close-button";
 import db from "@/lib/db";
+import { getIsOwner } from "@/lib/session";
 import { formatToDollar } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/16/solid";
 import Image from "next/image";
@@ -16,6 +17,7 @@ async function getProduct(id: number) {
     include: {
       user: {
         select: {
+          id: true,
           username: true,
           avatar: true,
         },
@@ -34,6 +36,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
   if (!product) {
     return notFound();
   }
+  const isOwner = await getIsOwner(product.user.id);
   return (
     <div
       className="absolute w-full h-full z-50
@@ -78,12 +81,21 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <span className="font-semibold text-xl p-4">
                 ${formatToDollar(product.price)}
               </span>
+              {isOwner ? (
+                <Link
+                  className="bg-orange-300 px-5 py-2.5 text-white
+        rounded-md font-semibold"
+                  href={`/products/${product.id}/edit`}
+                >
+                  Edit
+                </Link>
+              ) : null}
               <Link
                 className="bg-orange-500 px-5 py-2.5 mr-3 text-white
         rounded-md font-semibold"
                 href={``}
               >
-                채팅하기
+                Chat
               </Link>
             </div>
           </div>

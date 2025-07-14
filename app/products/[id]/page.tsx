@@ -1,18 +1,15 @@
 import db from "@/lib/db";
-import { getSession } from "@/lib/session";
+import { getIsOwner } from "@/lib/session";
 import { formatToDollar } from "@/lib/utils";
 import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-async function getIsOwner(userId: number) {
-  const session = await getSession();
-  if (session.id) {
-    return session.id === userId;
-  } else {
-    return false;
-  }
+export async function generateMetadata() {
+  return {
+    title: "product",
+  };
 }
 
 async function getProduct(id: number) {
@@ -85,19 +82,20 @@ export default async function ProductDetail({
           ${formatToDollar(product.price)}
         </span>
         {isOwner ? (
-          <button
-            className="bg-red-500 px-5 py-2.5 text-white
+          <Link
+            className="bg-orange-300 px-5 py-2.5 text-white
         rounded-md font-semibold"
+            href={`/products/${product.id}/edit`}
           >
-            Delete Product
-          </button>
+            Edit
+          </Link>
         ) : null}
         <Link
           className="bg-orange-500 px-5 py-2.5 text-white
         rounded-md font-semibold"
           href={``}
         >
-          채팅하기
+          Chat
         </Link>
       </div>
     </div>

@@ -3,6 +3,16 @@ import db from "@/lib/db";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Home",
+};
+
+// To inform this page is not static when npm builds
+// export const dynamic = "force-dynamic";
+
+// This code only runs in production mode, makes this page static.
+// export const validate = 60;
+
 async function getInitialProducts() {
   const products = await db.product.findMany({
     select: {

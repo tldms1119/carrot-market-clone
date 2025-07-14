@@ -1,25 +1,10 @@
 "use server";
 
-import { z } from "zod";
-import fs from "fs/promises";
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-
-const productSchema = z.object({
-  photo: z.string({
-    required_error: "Photo is required",
-  }),
-  title: z.string({
-    required_error: "Title is required",
-  }),
-  description: z.string({
-    required_error: "Description is required",
-  }),
-  price: z.coerce.number({
-    required_error: "Price is required",
-  }),
-});
+import { productSchema } from "../product-schema";
+import { saveImage } from "@/lib/file-utils";
 
 export async function uploadProduct(_: any, formData: FormData) {
   const data = {
@@ -30,9 +15,7 @@ export async function uploadProduct(_: any, formData: FormData) {
   };
   if (data.photo instanceof File) {
     // TODO upload for anoter storage like s3 or cloudflare
-    const photoData = await data.photo.arrayBuffer();
-    await fs.appendFile(`./public/${data.photo.name}`, Buffer.from(photoData));
-    data.photo = `/${data.photo.name}`;
+    data.photo = await saveImage(data.photo);
   }
   const result = productSchema.safeParse(data);
   if (!result.success) {

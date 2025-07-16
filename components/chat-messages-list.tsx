@@ -78,46 +78,56 @@ export default function ChatMessagesList({
       channel.current?.unsubscribe();
     };
   }, [chatRoomId]);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
   return (
-    <div className="p-5 flex flex-col gap-5 min-h-screen justify-end">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={`flex gap-2 items-start 
+    <div className="p-5 flex flex-col gap-3 h-screen">
+      <div className="flex-1 overflow-y-auto flex flex-col">
+        <div className="flex flex-col gap-5 mt-auto">
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex gap-2 items-start 
         ${message.userId === userId ? "justify-end" : ""}`}
-        >
-          {message.userId === userId ? null : !message.user.avatar ? (
-            <UserIcon className="size-8" />
-          ) : (
-            <Image
-              width={40}
-              height={40}
-              className="size-8"
-              src={message.user.avatar!}
-              alt={message.user.username}
-            />
-          )}
-          <div
-            className={`flex flex-col gap-1 
-            ${message.userId === userId ? "items-end" : ""}`}
-          >
-            <span
-              className={`${
-                message.userId === userId ? "bg-green-500" : "bg-orange-500"
-              } px-2 py-1 rounded-md
-             text-white`}
             >
-              {message.payload}
-            </span>
-            <span className="text-xs">
-              {formatToTimeAgo(message.created_at.toString())}
-            </span>
-          </div>
+              {message.userId === userId ? null : !message.user.avatar ? (
+                <UserIcon className="size-8" />
+              ) : (
+                <Image
+                  width={40}
+                  height={40}
+                  className="size-8"
+                  src={message.user.avatar!}
+                  alt={message.user.username}
+                />
+              )}
+              <div
+                className={`flex flex-col gap-1
+            ${message.userId === userId ? "items-end" : ""}`}
+              >
+                <span
+                  className={`${
+                    message.userId === userId ? "bg-green-500" : "bg-orange-500"
+                  } px-2 py-1 rounded-md
+             text-white`}
+                >
+                  {message.payload}
+                </span>
+                <span className="text-xs">
+                  {formatToTimeAgo(message.created_at.toString())}
+                </span>
+              </div>
+            </div>
+          ))}
+          <div ref={bottomRef} />
         </div>
-      ))}
+      </div>
       <form
         onSubmit={onSubmit}
-        className="flex justify-between items-center gap-2"
+        className="flex justify-between items-center gap-2 flex-shrink-0"
       >
         <input
           required

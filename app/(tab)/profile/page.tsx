@@ -24,11 +24,18 @@ export default async function Profile() {
     redirect("/");
   };
   return (
-    <div>
-      <h1>Welcome! {user?.username}</h1>
+    <div className="p-5 flex justify-between">
+      <h1 className="text-xl">
+        Welcome! <span className="font-semibold">{user?.username} 🙂</span>
+      </h1>
       {/* using form not to make this component to client component */}
       <form action={logOut}>
-        <button>Log out</button>
+        <button
+          className="bg-orange-500 px-5 py-2 text-white
+        rounded-md font-semibold"
+        >
+          Log out
+        </button>
       </form>
     </div>
   );

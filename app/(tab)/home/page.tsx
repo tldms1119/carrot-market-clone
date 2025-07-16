@@ -36,7 +36,7 @@ export default async function Product() {
     <div className="p-5 flex flex-col gap-5">
       <ProductList initialProducts={initialProducts} />
       <Link
-        href="/products/add"
+        href="/product-add"
         className="bg-orange-500 flex
       items-center justify-center size-16 rounded-full 
       fixed bottom-24 right-8 text-white

@@ -33,6 +33,7 @@ export default async function Life() {
   const posts = await getPosts();
   return (
     <div className="p-5 flex flex-col">
+      {posts.length === 0 ? <h2>There isn't any posts.</h2> : null}
       {posts.map((post) => (
         <Link
           key={post.id}

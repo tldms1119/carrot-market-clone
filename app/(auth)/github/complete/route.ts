@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     },
   });
   if (user) {
-    logUserIn(user.id);
+    return await logUserIn(user.id);
   }
   // TODO check duplicate username & give random username
   const newUser = await db.user.create({
@@ -61,5 +61,5 @@ export async function GET(request: NextRequest) {
       id: true,
     },
   });
-  logUserIn(newUser.id);
+  return await logUserIn(newUser.id);
 }

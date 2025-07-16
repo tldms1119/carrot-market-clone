@@ -5,6 +5,7 @@ import { UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getOrCreateChatRoom } from "./action";
 
 export async function generateMetadata() {
   return {
@@ -20,6 +21,7 @@ async function getProduct(id: number) {
     include: {
       user: {
         select: {
+          id: true,
           username: true,
           avatar: true,
         },
@@ -89,14 +91,18 @@ export default async function ProductDetail({
           >
             Edit
           </Link>
-        ) : null}
-        <Link
-          className="bg-orange-500 px-5 py-2.5 text-white
+        ) : (
+          <form action={getOrCreateChatRoom}>
+            <input name="productId" defaultValue={product.id} hidden />
+            <input name="userId" defaultValue={product.user.id} hidden />
+            <button
+              className="bg-orange-500 px-5 py-2.5 text-white
         rounded-md font-semibold"
-          href={``}
-        >
-          Chat
-        </Link>
+            >
+              Chat
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

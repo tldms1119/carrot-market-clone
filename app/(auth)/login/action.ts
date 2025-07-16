@@ -57,7 +57,7 @@ export const login = async (prevState: any, formData: FormData) => {
     });
     const ok = await bcrypt.compare(result.data.password, user!.password ?? "");
     if (ok) {
-      logUserIn(user!.id);
+      return await logUserIn(user!.id);
     } else {
       return {
         ...data,

@@ -96,6 +96,6 @@ export async function createAccount(prevState: any, formData: FormData) {
         id: true,
       },
     });
-    logUserIn(user.id);
+    return await logUserIn(user.id);
   }
 }

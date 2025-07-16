@@ -1,5 +1,6 @@
 "use server";
 
+import { getOrCreateChatRoom } from "@/app/products/[id]/action";
 import CloseButton from "@/components/close-button";
 import db from "@/lib/db";
 import { getIsOwner } from "@/lib/session";
@@ -77,7 +78,7 @@ export default async function Modal({ params }: { params: { id: string } }) {
               <h1 className="text-xl font-semibold">{product.title}</h1>
               <p className="pt-3 elli">{product.description}</p>
             </div>
-            <div className="h-20 flex justify-between items-center flex-shrink-0">
+            <div className="h-20 flex justify-between items-center flex-shrink-0 pr-3">
               <span className="font-semibold text-xl p-4">
                 ${formatToDollar(product.price)}
               </span>
@@ -89,14 +90,18 @@ export default async function Modal({ params }: { params: { id: string } }) {
                 >
                   Edit
                 </Link>
-              ) : null}
-              <Link
-                className="bg-orange-500 px-5 py-2.5 mr-3 text-white
+              ) : (
+                <form action={getOrCreateChatRoom}>
+                  <input name="productId" defaultValue={product.id} hidden />
+                  <input name="userId" defaultValue={product.user.id} hidden />
+                  <button
+                    className="bg-orange-500 px-5 py-2.5 text-white
         rounded-md font-semibold"
-                href={``}
-              >
-                Chat
-              </Link>
+                  >
+                    Chat
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>

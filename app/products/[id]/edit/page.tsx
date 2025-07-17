@@ -5,9 +5,9 @@ import ProductEdit from "@/components/product-edit";
 export default async function EditProduct({
   params,
 }: {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }) {
   const id = Number((await params).id);
   if (isNaN(id)) {

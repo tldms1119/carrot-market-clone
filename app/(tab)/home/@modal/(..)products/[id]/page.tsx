@@ -28,7 +28,13 @@ async function getProduct(id: number) {
   return product;
 }
 
-export default async function Modal({ params }: { params: { id: string } }) {
+type ModalPageProps = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default async function Modal({ params }: ModalPageProps) {
   const id = Number((await params).id);
   if (isNaN(id)) {
     return notFound();

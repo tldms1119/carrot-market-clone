@@ -72,7 +72,7 @@ function getCachedLikeStatus(postId: number, userId: number) {
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const id = Number((await params).id);
   if (isNaN(id)) {
